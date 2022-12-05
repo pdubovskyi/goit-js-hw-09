@@ -9,8 +9,8 @@ startBtn.addEventListener('click', onStartBtn);
 stopBtn.addEventListener('click', onStopBtn);
 
 function onStartBtn(e) {
-  startBtn.disabled = true;
   timerId = setInterval(() => {
+    startBtn.disabled = true;
     const getRandomColor = getRandomHexColor();
     document.body.style.backgroundColor = getRandomColor;
     console.log(getRandomColor);
