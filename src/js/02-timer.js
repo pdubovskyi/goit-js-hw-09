@@ -35,6 +35,8 @@ const convertMs = ms => {
   return { days, hours, minutes, seconds };
 };
 
+let timerId = null;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -42,7 +44,6 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] < Date.now()) {
-      // window.alert('Please choose a date in the future');
       Notiflix.Notify.failure('Please choose a date in the future');
 
       startBtn.disabled = true;
@@ -55,8 +56,18 @@ const options = {
       function onBtn(e) {
         timerId = setInterval(() => {
           startBtn.disabled = true;
+
           const deltaTime = selectedDates[0] - Date.now();
+
+          if (deltaTime <= 0) {
+            clearInterval(timerId);
+            return;
+          }
+
           const timeComponent = convertMs(deltaTime);
+
+          console.log(deltaTime);
+
           days.textContent = timeComponent.days;
           hours.textContent = timeComponent.hours;
           minutes.textContent = timeComponent.minutes;
